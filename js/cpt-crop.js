@@ -3,10 +3,18 @@ jQuery(document).ready(function($) {
 	var adminAjaxPath = '../wp-admin/admin-ajax.php';
 
 	//setup for ajax connections
-	$.ajaxSetup({type:'POST', url:adminAjaxPath, cache:false, timeout: (30 * 1000)});
+	$.ajaxSetup({
+		type: 'POST',
+		url: adminAjaxPath,
+		cache: false,
+		timeout: (30 * 1000)
+	});
 
 	//cropping object: holds jcrop-object and image to use the crop on
-	var cropping = {api:-1, img : $('.selectionArea img')};
+	var cropping = {
+		api: -1,
+		img: $('.selectionArea img')
+	};
 
 	/*needed cause the js-logic is currently not handle the hidden objects in dependence with "select all of the same ratio"*/
 	$('.thumbnail-list li.hidden').remove();
@@ -23,13 +31,13 @@ jQuery(document).ready(function($) {
 	//handle checkbox for selecting all with same ratio
 	$('#cpt-same-ratio').change(function() {
 		var active = $('.thumbnail-list li.active');
-		if($(this).attr('checked')==='checked') {
-			if(active.length>0) {
+		if ($(this).attr('checked') === 'checked') {
+			if (active.length > 0) {
 				selectAllWithSameRatio($(active[0]));
 				activateArea(cropping);
 			}
 		} else {
-			if(active.length>1) {
+			if (active.length > 1) {
 				$('.thumbnail-list li').removeClass('active');
 				deactivateArea(cropping);
 			}
@@ -45,13 +53,13 @@ jQuery(document).ready(function($) {
 
 	$('#cpt-generate').click(function() {
 		var active = $('.thumbnail-list li.active');
-		if(active.length===0) {
+		if (active.length === 0) {
 			alert(cpt_lang.selectOne);
 			return;
 		}
 		var selection = cropping.api.tellSelect();
-		if(active.length>0 && selection.w>0 && selection.h>0) {
-			doProcessing(active,cropping);
+		if (active.length > 0 && selection.w > 0 && selection.h > 0) {
+			doProcessing(active, cropping);
 		}
 	});
 
@@ -62,7 +70,7 @@ jQuery(document).ready(function($) {
 	});
 
 	/********************************/
-	function doProcessing(active,cropping) {
+	function doProcessing(active, cropping) {
 		/*console.log('doProcessing');*/
 
 		var active_array = [];
@@ -74,7 +82,7 @@ jQuery(document).ready(function($) {
 		$('.waitingWindow').show();
 
 		$.ajax({
-			data:{
+			data: {
 				action: 'cptSaveThumbnail',
 				'_ajax_nonce': cpt_ajax_nonce,
 				cookie: encodeURIComponent(document.cookie),
@@ -83,21 +91,21 @@ jQuery(document).ready(function($) {
 				active_values: JSON.stringify(active_array),
 				same_ratio_active: $('#cpt-same-ratio').is('checked')
 			},
-			complete : function() {
+			complete: function() {
 				$('.mainWindow').show();
 				$('.waitingWindow').hide();
 			},
-			success : function( response ) {
+			success: function(response) {
 				try {
 					var result = JSON.parse(response);
 
-					if(cpt_debug_js) {
-						console.log('Save Function Debug',result.debug);
+					if (cpt_debug_js) {
+						console.log('Save Function Debug', result.debug);
 					}
 
-					if(typeof result.success == "number") {
+					if (typeof result.success == "number") {
 
-						if(result.changed_image_format) {
+						if (result.changed_image_format) {
 							window.location.reload();
 						} else {
 							doCacheBreaker(result.success);
@@ -106,8 +114,8 @@ jQuery(document).ready(function($) {
 						//saving fail
 						alert(result.error);
 					}
-				} catch(e) {
-					alert(e.message+"\n"+response);
+				} catch (e) {
+					alert(e.message + "\n" + response);
 				}
 
 			}
@@ -118,20 +126,20 @@ jQuery(document).ready(function($) {
 		$('.thumbnail-list li img').each(function() {
 			var imgurl = $(this).attr('src');
 			var last = imgurl.lastIndexOf('?');
-			if(last<0) {
-				imgurl+='?'+number;
+			if (last < 0) {
+				imgurl += '?' + number;
 			} else {
-				imgurl = imgurl.substring(0, last) + '?'+number;
+				imgurl = imgurl.substring(0, last) + '?' + number;
 			}
-			$(this).attr('src',imgurl);
+			$(this).attr('src', imgurl);
 		});
 	}
 
 	function selectAllWithSameRatio(elem) {
 		$('.thumbnail-list li').removeClass('active');
-		if($('#cpt-same-ratio').attr('checked')==='checked') {
+		if ($('#cpt-same-ratio').attr('checked') === 'checked') {
 			var ratio = elem.attr('rel');
-			var elements = $('.thumbnail-list li[rel="'+ratio+'"]');
+			var elements = $('.thumbnail-list li[rel="' + ratio + '"]');
 			elements.addClass('active');
 		} else {
 			elem.addClass('active');
@@ -140,10 +148,11 @@ jQuery(document).ready(function($) {
 
 
 	function deactivateArea(c) {
-		if(c.api!=-1) {
+		if (c.api != -1) {
 			c.api.release();
 			c.api.disable();
 		}
+		$("#cpt-upload").attr("disabled", true);
 	}
 
 	function activateArea(c) {
@@ -154,25 +163,27 @@ jQuery(document).ready(function($) {
 		var ratio = 0;
 		var crop = true;
 
+		$("#cpt-upload").removeAttr("disabled");
 
 		//get the options
 		allActiveThumbs.each(function() {
+
 			var img_data = $(this).data('values');
-			if(ratio === 0) {
-				ratio = img_data.ratio;//initial
+			if (ratio === 0) {
+				ratio = img_data.ratio; //initial
 			}
-			if(ratio != img_data.ratio) {
-				console.info('Crop Thumbnails: print ratio is different from normal ratio on image size "'+img_data.name+'".');
+			if (ratio != img_data.ratio) {
+				console.info('Crop Thumbnails: print ratio is different from normal ratio on image size "' + img_data.name + '".');
 			}
 
 			//we only need to check in one dimension, cause per definition all selected images have to use the same ratio
-			if(img_data.width > largestWidth) {
+			if (img_data.width > largestWidth) {
 				largestWidth = img_data.width;
 				largestHeight = img_data.height;
 			}
 
 			//crop also has to be the same on all selected images
-			if(img_data.crop==1) {
+			if (img_data.crop == 1) {
 				crop = true;
 			} else {
 				crop = false;
@@ -180,57 +191,93 @@ jQuery(document).ready(function($) {
 		});
 
 		var scale = 0;
-		if(ratio>=0) {
+		if (ratio >= 0) {
 			scale = c.img.data('values').height / largestHeight;
 		} else {
 			scale = c.img.data('values').width / largestWidth;
 		}
 
-		var preSelect = [ 0, 0, Math.round(scale*c.img.width()), Math.round(scale*c.img.height()) ];
-		var minSize = [ largestWidth, largestHeight ];
+		var preSelect = [0, 0, Math.round(scale * c.img.width()), Math.round(scale * c.img.height())];
+		var minSize = [largestWidth, largestHeight];
 		// END get the options
 
 		//set the options
 		var options = {};
 		options.boxWidth = c.img.width();
 		options.boxHeight = c.img.height();
-		options.trueSize = [cropping.img.data('values').width,c.img.data('values').height];
+		options.trueSize = [cropping.img.data('values').width, c.img.data('values').height];
 		options.aspectRatio = ratio;
 		options.setSelect = preSelect;
 
-		if(largestWidth>cropping.img.data('values').width || largestHeight>cropping.img.data('values').height) {
+		if (largestWidth > cropping.img.data('values').width || largestHeight > cropping.img.data('values').height) {
 			alert(cpt_lang.warningOriginalToSmall);
 		} else {
 			options.minSize = minSize;
 		}
 
 		//correct some options
-		if(ratio>=0) {
+		if (ratio >= 0) {
 			//add a offset to move the selection in the middle
-			var crop_offset = (cropping.img.data('values').width - scale * largestWidth ) / 2;
-			options.setSelect = [ crop_offset, 0, cropping.img.data('values').width, Math.round(scale*c.img.height()) ];
+			var crop_offset = (cropping.img.data('values').width - scale * largestWidth) / 2;
+			options.setSelect = [crop_offset, 0, cropping.img.data('values').width, Math.round(scale * c.img.height())];
 		} else {
 			//no offset cause in most cases the the selection is needed in the upper corner (human portrait)
-			options.setSelect = [ 0, 0, Math.round(scale*c.img.width()) , cropping.img.data('values').height];
+			options.setSelect = [0, 0, Math.round(scale * c.img.width()), cropping.img.data('values').height];
 		}
 
-		if(scale===Infinity) {
-			options.setSelect = [ 0, 0, Math.round(scale*c.img.width()) , cropping.img.data('values').height];
+		if (scale === Infinity) {
+			options.setSelect = [0, 0, Math.round(scale * c.img.width()), cropping.img.data('values').height];
 		}
 
 		//free scaling
-		if(!crop) {
+		if (!crop) {
 			options.aspectRatio = false;
-			options.setSelect = [0,0,cropping.img.data('values').width,cropping.img.data('values').height];
+			options.setSelect = [0, 0, cropping.img.data('values').width, cropping.img.data('values').height];
 			console.log('free scaling');
 		}
 
 		//debug
-		if(cpt_debug_js) {
-			console.log('choosed image - data',c.img.data('values'));
-			console.log('JCrop - options',options);
+		if (cpt_debug_js) {
+			console.log('choosed image - data', c.img.data('values'));
+			console.log('JCrop - options', options);
 		}
 
 		c.api = $.Jcrop(c.img, options);
 	}
+
+
+	$("#cpt-upload").click(function() {
+		$("#theFile").click();
+	});
+	$("#theFile").change(function(e) {
+		var allActiveThumbs = $('.thumbnail-list li.active img');
+		var firstActiveThumb = null
+		if (!allActiveThumbs.size()) {
+			return;
+		}
+		//get the first
+		firstActiveThumb = allActiveThumbs[0];
+		var img_data = $(firstActiveThumb).data('values');
+
+		console.log("selected an upload on thumb", img_data.width, img_data.height);
+		var formData = new FormData();
+		formData.append("file",this.files[0]);
+		formData.append("width",img_data.width);
+		formData.append("height",img_data.height);
+		formData.append("raw_values", JSON.stringify(cropping.img.data('values')));
+		formData.append("action", "cptUploadThumbnail");
+		$.ajax({
+			url: "admin-ajax.php",
+
+			type:"POST",
+			data: formData,
+			processData: false,
+			contentType:false,
+			success:function(){
+				doCacheBreaker(Math.random());
+			}
+		})
+	});
 });
+
+

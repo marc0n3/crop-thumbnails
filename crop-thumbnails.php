@@ -5,7 +5,7 @@
  * Author: Volkmar Kantor
  * Author URI: http://www.totalmedial.de
  * Version: 0.10.12
- * Description: Crop your thumbnails, the easy way.
+ * Description: Crop your thumbnails, the easy way. This fork comes from https://github.com/marc0n3/crop-thumbnails.git
  * Text Domain: crop-thumbnails
  *
  * License: GPL v3

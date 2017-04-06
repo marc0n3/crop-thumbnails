@@ -218,11 +218,14 @@ jQuery(document).ready(function($) {
 					<h3><?php _e('Raw',CROP_THUMBS_LANG); ?>: <?php echo $orig_img[1].' '.__('pixel',CROP_THUMBS_LANG)?>  x <?php echo $orig_img[2].' '.__('pixel',CROP_THUMBS_LANG) ?> (<?php echo $orig_img['print_ratio']; ?>)</h3>
 					<img src="<?php echo $orig_img[0]?>" data-values='{"id":<?php echo $image_obj->ID; ?>,"parentId":<?php echo $post_id_attached ?>,"width":<?php echo $orig_img[1]?>,"height":<?php echo $orig_img[2] ?>}' />
 					<button id="cpt-generate" class="button"><?php _e('Save Crop',CROP_THUMBS_LANG);?></button>
+					<input type="file" id="theFile" />
+					<button id="cpt-upload" class="button" disabled><?php _e('Upload Crop',CROP_THUMBS_LANG);?></button>
 					<h4><?php _e('Quick Instructions',CROP_THUMBS_LANG);?></h4>
 					<ul class="step-info">
 						<li><?php _e('Step 1: Choose an image from the right.',CROP_THUMBS_LANG); ?></li>
 						<li><?php _e('Step 2: Use your mouse to change the size of the rectangle on the image above.',CROP_THUMBS_LANG); ?></li>
 						<li><?php _e('Step 3: Click on "Save Crop".',CROP_THUMBS_LANG); ?></li>
+						<li><i><?php _e('Optional: Click on "Upload Crop" to overwrite a thumb(for example if you want some special image for a particular resolution). Uploaded image is used as-is, no trasformation is performed on the image.',CROP_THUMBS_LANG); ?></i></li>
 					</ul>
 				</div>
 				<div class="cptRightPane">
@@ -300,12 +303,17 @@ jQuery(document).ready(function($) {
 								);
 								$jsonDataValues = apply_filters('crop_thumbnails_editor_jsonDataValues', $jsonDataValues);
 								$print_ratio = apply_filters('crop_thumbnails_editor_printratio', $print_ratio, $img_size_name);
+								
 
+								$wRatio = $value['width'] / $orig_img[1];
+								$hRAtio = $value['height'] / $orig_img[2];
+								$resizeFactor = round(max($wRatio,$hRAtio)*100)/100;
 								?>
 								<li rel="<?php echo $print_ratio; ?>">
 									<strong title="<?php esc_attr_e($img_size_name) ?>"><?php echo $value['name'] ?><?php echo $_lowResWarning; ?></strong><?php echo $special_warning; ?>
 									<span class="dimensions"><?php _e('Dimensions:',CROP_THUMBS_LANG) ?> <?php echo $print_dimensions; ?></span>
 									<span class="ratio"><?php _e('Ratio:',CROP_THUMBS_LANG) ?> <?php echo $print_ratio; ?></span>
+									<span class="scale <?php if ($resizeFactor > 1.2) echo "lowResWarning"; ?>"><?php _e('Scale:',CROP_THUMBS_LANG) ?> <?php echo $resizeFactor; ?></span>
 									<img src="<?php echo $img_data[0]?>?<?php echo $cache_breaker ?>" data-values="<?php esc_attr_e(json_encode($jsonDataValues)); ?>" />
 								</li>
 							<?php endif; ?>

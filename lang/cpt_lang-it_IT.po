@@ -2,36 +2,33 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Crop-Post-Thumbnails\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-18 21:58+0100\n"
-"PO-Revision-Date: 2016-11-02 09:13+0100\n"
+"POT-Creation-Date: 2017-04-06 13:05+0200\n"
+"PO-Revision-Date: 2017-04-06 13:08+0200\n"
+"Last-Translator: \n"
 "Language-Team: \n"
+"Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-KeywordsList: __;_e;esc_attr_e;esc_attr__;esc_html_e\n"
 "X-Poedit-Basepath: .\n"
 "X-Generator: Poedit 1.8.11\n"
-"Last-Translator: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"Language: it\n"
 "X-Poedit-SearchPath-0: ..\n"
 
 #: ../crop-thumbnails.php:35
 msgid "Crop your thumbnails, the easy way."
 msgstr "Ritagliare le miniature, il modo più semplice."
 
-#: ../functions/backendpreparer.php:84 ../functions/backendpreparer.php:87
-msgid "Crop Thumbnails"
-msgstr "Miniature crop"
-
-#: ../functions/backendpreparer.php:98 ../functions/backendpreparer.php:101
+#: ../functions/backendpreparer.php:86 ../functions/backendpreparer.php:87
+#: ../functions/backendpreparer.php:155 ../functions/backendpreparer.php:156
+#: ../functions/backendpreparer.php:279
 msgid "Crop Featured Image"
 msgstr "Ritaglia immagine di presentazione"
 
-#: ../functions/backendpreparer.php:127 ../functions/backendpreparer.php:130
-#: ../functions/backendpreparer.php:252
-msgid "Crop Thumbnail"
-msgstr "Ritaglio Thumbnail"
+#: ../functions/backendpreparer.php:132 ../functions/backendpreparer.php:133
+msgid "Crop Thumbnails"
+msgstr "Miniature crop"
 
 #: ../functions/editor.php:25
 msgid "You are not allowed to do this."
@@ -45,7 +42,7 @@ msgstr "Non ci sono immagini di presentazione per questo post."
 msgid "An error occurred!"
 msgstr "Si è verificato un errore!"
 
-#: ../functions/editor.php:78 ../functions/editor.php:204
+#: ../functions/editor.php:78 ../functions/editor.php:209
 msgid "Cropping is disabled for this post-type."
 msgstr "Il ritaglio è disattivato per questo tipo di post."
 
@@ -70,11 +67,11 @@ msgstr "Post miniatura"
 msgid "Image %d"
 msgstr "Immagine %d"
 
-#: ../functions/editor.php:180
+#: ../functions/editor.php:185
 msgid "Bug--this should not have occurred."
 msgstr "Bug - questo non sarebbe dovuto succedere!"
 
-#: ../functions/editor.php:181
+#: ../functions/editor.php:186
 msgid ""
 "Warning: the original image is too small to be cropped in good quality with "
 "this thumbnail size."
@@ -82,137 +79,156 @@ msgstr ""
 "Attenzione: l'immagine originale è troppo piccola per essere ritagliata in "
 "buona qualità con queste dimensioni delle miniature."
 
-#: ../functions/editor.php:182
+#: ../functions/editor.php:187
 msgid "First, select an image. Then, click once again."
 msgstr ""
 "In primo luogo, selezionare un'immagine. Quindi, fare clic ancora una volta."
 
-#: ../functions/editor.php:209
+#: ../functions/editor.php:214
 msgid "back to image list"
 msgstr "Torna alla lista delle immagini"
 
-#: ../functions/editor.php:210
+#: ../functions/editor.php:215
 msgid "Please wait until the images are cropped."
 msgstr "Per favore, attendi che l’immagine sia ritagliata."
 
-#: ../functions/editor.php:213
+#: ../functions/editor.php:218
 msgid "Raw"
 msgstr "Dimensione originale"
 
-#: ../functions/editor.php:213 ../functions/editor.php:279
+#: ../functions/editor.php:218 ../functions/editor.php:287
 msgid "pixel"
 msgstr "pixel"
 
-#: ../functions/editor.php:215
+#: ../functions/editor.php:220
 msgid "Save Crop"
 msgstr "Salva ritaglio"
 
-#: ../functions/editor.php:216
+#: ../functions/editor.php:222
+msgid "Upload Crop"
+msgstr "Carica ritaglio"
+
+#: ../functions/editor.php:223
 msgid "Quick Instructions"
 msgstr "Istruzioni veloci"
 
-#: ../functions/editor.php:218
+#: ../functions/editor.php:225
 msgid "Step 1: Choose an image from the right."
-msgstr "Gradino 1: Scegli un’immagine a destra."
+msgstr "Passo 1: Scegli un’immagine a destra."
 
-#: ../functions/editor.php:219
+#: ../functions/editor.php:226
 msgid ""
 "Step 2: Use your mouse to change the size of the rectangle on the image "
 "above."
 msgstr ""
-"Gradino 2: Usa il mouse per cambiare la dimensione e posizione dell’immagine "
+"Passo 2: Usa il mouse per cambiare la dimensione e posizione dell’immagine "
 "sopra."
 
-#: ../functions/editor.php:220
+#: ../functions/editor.php:227
 msgid "Step 3: Click on \"Save Crop\"."
-msgstr "Gradino 3: Clicca su “Salva ritaglio”."
+msgstr "Passo 3: Clicca su “Salva ritaglio”."
 
-#: ../functions/editor.php:225
+#: ../functions/editor.php:228
+msgid ""
+"Optional: Click on \"Upload Crop\" to overwrite a thumb(for example if you "
+"want some special image for a particular resolution). Uploaded image is used "
+"as-is, no trasformation is performed on the image."
+msgstr ""
+"Optional: Clicca su \"Carica ritaglio\" per sovrascrivere un ritaglio (per "
+"esempio nel caso si voglia una immagine speciale per una risoluzione "
+"particolare ). L'immagine caricata viene utilizzata così com'è, nessuna "
+"trasformazione viene applicata all'upload."
+
+#: ../functions/editor.php:233
 msgid "Crop all images with same ratio at once"
 msgstr "Ritaglia tutte le immagini con lo stesso rapporto in una sola volta."
 
-#: ../functions/editor.php:226
+#: ../functions/editor.php:234
 msgid "deselect all"
 msgstr "Deseleziona tutto"
 
-#: ../functions/editor.php:262
+#: ../functions/editor.php:270
 msgid "cropped"
 msgstr "Ritagliata"
 
-#: ../functions/editor.php:271
+#: ../functions/editor.php:279
 msgid "maximum"
 msgstr "Massimo"
 
-#: ../functions/editor.php:286
+#: ../functions/editor.php:294
 msgid "Original image size too small for good crop quality!"
 msgstr ""
 "L’immagine originale è troppo piccola per un ritaglio di buona qualità! "
 
-#: ../functions/editor.php:292
+#: ../functions/editor.php:314
 msgid "Dimensions:"
 msgstr "Dimensioni:"
 
-#: ../functions/editor.php:293
+#: ../functions/editor.php:315
 msgid "Ratio:"
 msgstr "Rapporto:"
 
-#: ../functions/save.php:106
+#: ../functions/editor.php:316
+msgid "Scale:"
+msgstr "Fattore di scala"
+
+#: ../functions/save.php:103
 #, php-format
 msgid "Can't generate filesize '%s'."
 msgstr "Impossibile generare file di dimensioni ‘%s’"
 
-#: ../functions/save.php:113
+#: ../functions/save.php:110
 msgid "Can't copy temporary file to media library."
 msgstr ""
 "Non è possibile  copiare il file temporaneo per la libreria multimediale."
 
-#: ../functions/save.php:117
+#: ../functions/save.php:114
 msgid "Can't delete temporary file."
 msgstr "Non si può cancellare file temporaneo."
 
-#: ../functions/save.php:205
+#: ../functions/save.php:206
 msgid "ERROR: Security Check failed (maybe a timeout - please try again)."
 msgstr ""
 "ERRORE: Il controllo di sicurezza non è riuscito (forse un timeout - "
 "riprova)."
 
-#: ../functions/save.php:209
+#: ../functions/save.php:210
 msgid "ERROR: Submitted data is incomplete."
 msgstr "ERRORE: I dati Inseriti sono incompleti."
 
-#: ../functions/save.php:217
+#: ../functions/save.php:218
 msgid "Cropping to these dimensions on this image is not possible."
 msgstr "Il ritaglio di queste dimensioni su questa immagine non è possibile."
 
-#: ../functions/save.php:228
+#: ../functions/save.php:222
 msgid "ERROR: Can't find original image in database!"
 msgstr "ERRORE: Non si trova l’immagine originale nel database!"
 
-#: ../functions/save.php:231
+#: ../functions/save.php:225
 msgid "ERROR: Can't find original image file!"
 msgstr "ERRORE: Non si trova il file dell’immagine originale!"
 
-#: ../functions/save.php:234
+#: ../functions/save.php:228
 msgid "ERROR: Can't find original image metadata!"
 msgstr "ERRORE: Non si trova il mattata dell’immagine originale!"
 
-#: ../functions/settings.php:24 ../functions/settings.php:38
+#: ../functions/settings.php:27 ../functions/settings.php:41
 msgid "Settings"
 msgstr "Settaggi"
 
-#: ../functions/settings.php:31
+#: ../functions/settings.php:34
 msgid "Crop Post Thumbnail Page"
 msgstr "Ritaglio della miniatura  nella pagina del post"
 
-#: ../functions/settings.php:44
+#: ../functions/settings.php:47
 msgid "Save Changes"
 msgstr "Salva i cambiamenti"
 
-#: ../functions/settings.php:49
+#: ../functions/settings.php:52
 msgid "Support the plugin author"
 msgstr "Sostieni l’autore del plugin"
 
-#: ../functions/settings.php:50
+#: ../functions/settings.php:53
 msgid ""
 "You can support the plugin author <br />(and let him know you love this "
 "plugin) <br />by donating via Paypal. Thanks a lot!"
@@ -220,29 +236,33 @@ msgstr ""
 "È possibile sostenere l’autore del plugin <br /> (e fargli sapere che ti "
 "piace questo plugin) <br /> con una donazione tramite Paypal. Molte grazie!"
 
-#: ../functions/settings.php:72
+#: ../functions/settings.php:75
 msgid "Sizes and Post Types"
 msgstr "Dimensioni e tipi di post"
 
-#: ../functions/settings.php:73
+#: ../functions/settings.php:76
 msgid "Choose the image size options you want to hide for each post type."
 msgstr ""
 "Scegliere le opzioni di dimensione immagine che si desidera nascondere per "
 "ogni tipo di post."
 
-#: ../functions/settings.php:81
+#: ../functions/settings.php:79
+msgid "Plugin Test"
+msgstr ""
+
+#: ../functions/settings.php:82
 msgid "Developer Settings"
 msgstr "Impostazioni sviluppatore"
 
-#: ../functions/settings.php:83
+#: ../functions/settings.php:84
 msgid "Enable JS-Debug."
 msgstr "Abilita JS-debug."
 
-#: ../functions/settings.php:85
+#: ../functions/settings.php:86
 msgid "Enable Data-Debug."
 msgstr "Abilita Data-debug."
 
-#: ../functions/settings.php:90
+#: ../functions/settings.php:91
 msgid ""
 "Crop-Thumbnails is designed to make cropping images easy. For some post "
 "types, not all crop sizes are needed, but the plugin will automatically "
@@ -254,7 +274,7 @@ msgstr ""
 "automaticamente tutti i formati di ritaglio. Qui è possibile selezionare le "
 "dimensioni delle immagini disponibili nell'interfaccia di ritaglio .."
 
-#: ../functions/settings.php:91
+#: ../functions/settings.php:92
 msgid ""
 "Crop-Thumbnails will only show cropped images. Sizes with no crop will "
 "always be hidden."
@@ -262,41 +282,40 @@ msgstr ""
 "Crop-Thumbnails mostrerà solo le immagini ritagliate. Le misure senza "
 "ritaglio saranno sempre nascoste."
 
-#: ../functions/settings.php:149
-msgid ""
-"ATTENTION: be aware that you can break things, when you activate this. When "
-"activated your are able to cut those images to a spezific dimension that are "
-"not cropped. The name of the image will not change. You should be extra "
-"carefull when:"
-msgstr ""
-"ATTENZIONE: devi essere consapevole che si può rompere qualcosa, quando si "
-"attiva questo. Una volta attivato tu sei capace di ritagliare quelle "
-"immagini ad una dimensione specifica . Il nome dell'immagine non cambierà. "
-"Si dovrebbe avere particolare attenzione quando:"
+#~ msgid "Crop Thumbnail"
+#~ msgstr "Ritaglio Thumbnail"
 
-#: ../functions/settings.php:151
-msgid ""
-"you had inserted the image before on any page or post. (There may be height "
-"and width stored directly in the page-content.)"
-msgstr ""
-"Avevi inserito l'immagine prima su qualsiasi pagina o post. (Ci possono "
-"essere altezza e la larghezza memorizzati direttamente nel contenuto della "
-"pagina, es. css.)"
+#~ msgid ""
+#~ "ATTENTION: be aware that you can break things, when you activate this. "
+#~ "When activated your are able to cut those images to a spezific dimension "
+#~ "that are not cropped. The name of the image will not change. You should "
+#~ "be extra carefull when:"
+#~ msgstr ""
+#~ "ATTENZIONE: devi essere consapevole che si può rompere qualcosa, quando "
+#~ "si attiva questo. Una volta attivato tu sei capace di ritagliare quelle "
+#~ "immagini ad una dimensione specifica . Il nome dell'immagine non "
+#~ "cambierà. Si dovrebbe avere particolare attenzione quando:"
 
-#: ../functions/settings.php:152
-msgid ""
-"you use a plugin that expect the original image size. (The original image-"
-"size is also \"stored\" in the filename.)"
-msgstr ""
-"Stai utilizzando un plugin che rispetta le dimensioni dell’immagine "
-"originale. (Le dimensioni originali sono anche \"memorizzate” nel nome del "
-"file.)"
+#~ msgid ""
+#~ "you had inserted the image before on any page or post. (There may be "
+#~ "height and width stored directly in the page-content.)"
+#~ msgstr ""
+#~ "Avevi inserito l'immagine prima su qualsiasi pagina o post. (Ci possono "
+#~ "essere altezza e la larghezza memorizzati direttamente nel contenuto "
+#~ "della pagina, es. css.)"
 
-#: ../functions/settings.php:154
-msgid ""
-"The \"full\" image-size will never be cropped, otherwise you are not able to "
-"restore any image-size."
-msgstr ""
-"La dimensioni “piena” dell'immagine naturale non sarà mai ritagliata, "
-"altrimenti non si è in grado di ripristinare qualsiasi immagine a grandezza "
-"naturale."
+#~ msgid ""
+#~ "you use a plugin that expect the original image size. (The original image-"
+#~ "size is also \"stored\" in the filename.)"
+#~ msgstr ""
+#~ "Stai utilizzando un plugin che rispetta le dimensioni dell’immagine "
+#~ "originale. (Le dimensioni originali sono anche \"memorizzate” nel nome "
+#~ "del file.)"
+
+#~ msgid ""
+#~ "The \"full\" image-size will never be cropped, otherwise you are not able "
+#~ "to restore any image-size."
+#~ msgstr ""
+#~ "La dimensioni “piena” dell'immagine naturale non sarà mai ritagliata, "
+#~ "altrimenti non si è in grado di ripristinare qualsiasi immagine a "
+#~ "grandezza naturale."
