@@ -187,7 +187,7 @@ jQuery(document).ready(function($) {
 	cpt_lang['selectOne'] = "<?php _e('First, select an image. Then, click once again.',CROP_THUMBS_LANG);?>";
 	cpt_lang['saveAlert'] = "<?php _e('The following images will to be changed: %list% Are you sure?',CROP_THUMBS_LANG);?>";
 	cpt_lang['uploadAlert'] = "<?php _e('The following image will to overwritten: %list% Are you sure?',CROP_THUMBS_LANG);?>";
-	cpt_lang['uploadProblems'] = "<?php _e('Upload refused, chech file size and max upload size.',CROP_THUMBS_LANG);?>";
+	cpt_lang['uploadProblems'] = "<?php _e('Upload refused, check file size and max upload size.',CROP_THUMBS_LANG);?>";
 	cpt_lang['uploadNoMatch'] = "<?php _e('Your upload image dimensions(%img%) are not compatible with expected(%expected%), do you wanto to continue?',CROP_THUMBS_LANG);?>";
 	cpt_lang['yes'] = "<?php _e('Yes',CROP_THUMBS_LANG);?>";
 	cpt_lang['no'] = "<?php _e('No',CROP_THUMBS_LANG);?>";

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Crop-Post-Thumbnails\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-06 13:05+0200\n"
-"PO-Revision-Date: 2017-04-06 13:08+0200\n"
+"POT-Creation-Date: 2017-04-06 16:42+0200\n"
+"PO-Revision-Date: 2017-04-06 16:43+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: it\n"
@@ -42,7 +42,7 @@ msgstr "Non ci sono immagini di presentazione per questo post."
 msgid "An error occurred!"
 msgstr "Si è verificato un errore!"
 
-#: ../functions/editor.php:78 ../functions/editor.php:209
+#: ../functions/editor.php:78 ../functions/editor.php:216
 msgid "Cropping is disabled for this post-type."
 msgstr "Il ritaglio è disattivato per questo tipo di post."
 
@@ -79,44 +79,73 @@ msgstr ""
 "Attenzione: l'immagine originale è troppo piccola per essere ritagliata in "
 "buona qualità con queste dimensioni delle miniature."
 
-#: ../functions/editor.php:187
+#: ../functions/editor.php:187 ../functions/editor.php:194
 msgid "First, select an image. Then, click once again."
 msgstr ""
 "In primo luogo, selezionare un'immagine. Quindi, fare clic ancora una volta."
 
-#: ../functions/editor.php:214
+#: ../functions/editor.php:188
+msgid "The following images will to be changed: %list% Are you sure?"
+msgstr "Le seguenti immagini verranno modificate: %list% Procedere?"
+
+#: ../functions/editor.php:189
+msgid "The following image will to overwritten: %list% Are you sure?"
+msgstr "Le seguenti immagini verranno sovrascritte: %list% Procedere?"
+
+#: ../functions/editor.php:190
+msgid "Upload refused, check file size and max upload size."
+msgstr ""
+"Upload rifiutato, verificare il peso del file e il limite di upload del sito."
+
+#: ../functions/editor.php:191
+msgid ""
+"Your upload image dimensions(%img%) are not compatible with "
+"expected(%expected%), do you wanto to continue?"
+msgstr ""
+"Le dimensioni dell'immagine che intendi caricare (%img%) non sono quelle "
+"attese(%expected%), vuoi procedere?"
+
+#: ../functions/editor.php:192
+msgid "Yes"
+msgstr "Sì"
+
+#: ../functions/editor.php:193
+msgid "No"
+msgstr "No"
+
+#: ../functions/editor.php:221
 msgid "back to image list"
 msgstr "Torna alla lista delle immagini"
 
-#: ../functions/editor.php:215
+#: ../functions/editor.php:222
 msgid "Please wait until the images are cropped."
 msgstr "Per favore, attendi che l’immagine sia ritagliata."
 
-#: ../functions/editor.php:218
+#: ../functions/editor.php:225
 msgid "Raw"
 msgstr "Dimensione originale"
 
-#: ../functions/editor.php:218 ../functions/editor.php:287
+#: ../functions/editor.php:225 ../functions/editor.php:294
 msgid "pixel"
 msgstr "pixel"
 
-#: ../functions/editor.php:220
+#: ../functions/editor.php:227
 msgid "Save Crop"
 msgstr "Salva ritaglio"
 
-#: ../functions/editor.php:222
+#: ../functions/editor.php:229
 msgid "Upload Crop"
 msgstr "Carica ritaglio"
 
-#: ../functions/editor.php:223
+#: ../functions/editor.php:230
 msgid "Quick Instructions"
 msgstr "Istruzioni veloci"
 
-#: ../functions/editor.php:225
+#: ../functions/editor.php:232
 msgid "Step 1: Choose an image from the right."
 msgstr "Passo 1: Scegli un’immagine a destra."
 
-#: ../functions/editor.php:226
+#: ../functions/editor.php:233
 msgid ""
 "Step 2: Use your mouse to change the size of the rectangle on the image "
 "above."
@@ -124,11 +153,11 @@ msgstr ""
 "Passo 2: Usa il mouse per cambiare la dimensione e posizione dell’immagine "
 "sopra."
 
-#: ../functions/editor.php:227
+#: ../functions/editor.php:234
 msgid "Step 3: Click on \"Save Crop\"."
 msgstr "Passo 3: Clicca su “Salva ritaglio”."
 
-#: ../functions/editor.php:228
+#: ../functions/editor.php:235
 msgid ""
 "Optional: Click on \"Upload Crop\" to overwrite a thumb(for example if you "
 "want some special image for a particular resolution). Uploaded image is used "
@@ -139,76 +168,76 @@ msgstr ""
 "particolare ). L'immagine caricata viene utilizzata così com'è, nessuna "
 "trasformazione viene applicata all'upload."
 
-#: ../functions/editor.php:233
+#: ../functions/editor.php:240
 msgid "Crop all images with same ratio at once"
 msgstr "Ritaglia tutte le immagini con lo stesso rapporto in una sola volta."
 
-#: ../functions/editor.php:234
+#: ../functions/editor.php:241
 msgid "deselect all"
 msgstr "Deseleziona tutto"
 
-#: ../functions/editor.php:270
+#: ../functions/editor.php:277
 msgid "cropped"
 msgstr "Ritagliata"
 
-#: ../functions/editor.php:279
+#: ../functions/editor.php:286
 msgid "maximum"
 msgstr "Massimo"
 
-#: ../functions/editor.php:294
+#: ../functions/editor.php:301
 msgid "Original image size too small for good crop quality!"
 msgstr ""
 "L’immagine originale è troppo piccola per un ritaglio di buona qualità! "
 
-#: ../functions/editor.php:314
+#: ../functions/editor.php:321
 msgid "Dimensions:"
 msgstr "Dimensioni:"
 
-#: ../functions/editor.php:315
+#: ../functions/editor.php:322
 msgid "Ratio:"
 msgstr "Rapporto:"
 
-#: ../functions/editor.php:316
+#: ../functions/editor.php:323
 msgid "Scale:"
 msgstr "Fattore di scala"
 
-#: ../functions/save.php:103
+#: ../functions/save.php:102
 #, php-format
 msgid "Can't generate filesize '%s'."
 msgstr "Impossibile generare file di dimensioni ‘%s’"
 
-#: ../functions/save.php:110
+#: ../functions/save.php:109
 msgid "Can't copy temporary file to media library."
 msgstr ""
 "Non è possibile  copiare il file temporaneo per la libreria multimediale."
 
-#: ../functions/save.php:114
+#: ../functions/save.php:113
 msgid "Can't delete temporary file."
 msgstr "Non si può cancellare file temporaneo."
 
-#: ../functions/save.php:206
+#: ../functions/save.php:249
 msgid "ERROR: Security Check failed (maybe a timeout - please try again)."
 msgstr ""
 "ERRORE: Il controllo di sicurezza non è riuscito (forse un timeout - "
 "riprova)."
 
-#: ../functions/save.php:210
+#: ../functions/save.php:253
 msgid "ERROR: Submitted data is incomplete."
 msgstr "ERRORE: I dati Inseriti sono incompleti."
 
-#: ../functions/save.php:218
+#: ../functions/save.php:261
 msgid "Cropping to these dimensions on this image is not possible."
 msgstr "Il ritaglio di queste dimensioni su questa immagine non è possibile."
 
-#: ../functions/save.php:222
+#: ../functions/save.php:265
 msgid "ERROR: Can't find original image in database!"
 msgstr "ERRORE: Non si trova l’immagine originale nel database!"
 
-#: ../functions/save.php:225
+#: ../functions/save.php:268
 msgid "ERROR: Can't find original image file!"
 msgstr "ERRORE: Non si trova il file dell’immagine originale!"
 
-#: ../functions/save.php:228
+#: ../functions/save.php:271
 msgid "ERROR: Can't find original image metadata!"
 msgstr "ERRORE: Non si trova il mattata dell’immagine originale!"
 
@@ -281,6 +310,11 @@ msgid ""
 msgstr ""
 "Crop-Thumbnails mostrerà solo le immagini ritagliate. Le misure senza "
 "ritaglio saranno sempre nascoste."
+
+#~ msgid "Upload refused, chech file size and max upload size."
+#~ msgstr ""
+#~ "Upload rifiutato, verificare il peso del file e il limite di upload del "
+#~ "sito."
 
 #~ msgid "Crop Thumbnail"
 #~ msgstr "Ritaglio Thumbnail"
