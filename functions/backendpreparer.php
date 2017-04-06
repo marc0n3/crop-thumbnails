@@ -179,7 +179,7 @@ jQuery(document).ready(function($) {
 		 * Theme-Developers can adjust the size of the modal-dialog via filter.
 		 */
 		$modal_window_settings = array(
-			'limitToWidth' => 800, //thats the maximum width the modal can be. On small screens it will be smaller (see offsets), set to FALSE if you want no limit
+			'limitToWidth' => false, //thats the maximum width the modal can be. On small screens it will be smaller (see offsets), set to FALSE if you want no limit
 			'maxWidthOffset' => 50, //window-width minus "width_offset" equals modal-width
 			'maxHeightOffset' => 100, //window-width minus "height_offset" equals modal-height
 		);
