@@ -187,9 +187,14 @@ class CptSaveThumbnail {
 			$post_metadata = wp_get_attachment_metadata($obj->ID, true); //get the attachement metadata of the post
 
 			$_filepath = $this->generateFilename($sourceImgPath, $w, $h);
-			$tmp_name = $_FILES["file"]["tmp_name"];
+			$tmp_name  = $_FILES["file"]["tmp_name"];
+			if ($tmp_name) {
+				$result = move_uploaded_file($tmp_name, $_filepath);
+				if ($result) {
 
-			move_uploaded_file($tmp_name,$_filepath);
+					$json_return['success'] = time(); //time for cache-breaker
+					echo json_encode($json_return);
+				}}
 		} catch (Exception $e) {
 			$json_return['debug'] = $this->getDebugOutput($options);
 			$json_return['error'] = $e->getMessage();

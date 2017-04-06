@@ -71,6 +71,24 @@ jQuery(document).ready(function($) {
 
 	/********************************/
 	function doProcessing(active, cropping) {
+		var active_array = [];
+		active.find('img').each(function() {
+			active_array.push("<li>" + $(this).data('values').name + "</li>");
+		});
+		smoke.confirm(cpt_lang.saveAlert.replace(/%list%/, "<ul class='file-list'>" + active_array.join("") + "</ul>"), function(e) {
+			if (e) {
+				afterProcessingConfirm(active, cropping);
+			} else {
+
+			}
+		}, {
+			ok: cpt_lang.yes,
+			cancel: cpt_lang.no,
+			classname: "custom-class",
+			reverseButtons: true
+		});
+	}
+	function afterProcessingConfirm(active, cropping) {
 		/*console.log('doProcessing');*/
 
 		var active_array = [];
@@ -246,10 +264,70 @@ jQuery(document).ready(function($) {
 	}
 
 
-	$("#cpt-upload").click(function() {
-		$("#theFile").click();
-	});
-	$("#theFile").change(function(e) {
+
+	function doUpload() {
+		var fr = new FileReader;
+		var file = (this.files[0]);
+
+		fr.onload = function() { // file is loaded
+			var img = new Image;
+
+			img.onload = function() {
+				testUploadExpectedSize(img.width, img.height,file);
+			};
+
+			img.src = fr.result; // is the data URL because called with readAsDataURL
+		};
+
+		fr.readAsDataURL(this.files[0]);
+	}
+	function testUploadExpectedSize(imgW,imgH,file){
+		var allActiveThumbs = $('.thumbnail-list li.active');
+		var first = allActiveThumbs.find('img').eq(0);
+		var expectedWidth=first.data("values").width;
+		var expectedHeight=first.data("values").height;
+
+		if (expectedWidth!=imgW|| expectedHeight !=imgH ){
+			smoke.confirm(cpt_lang.uploadNoMatch.replace(/%img%/, imgW+"x"+imgH).replace(/%expected%/, expectedWidth+"x"+expectedHeight), function(e) {
+			if (e) {
+				promptUpload(file);
+			} else {
+
+			}
+		}, { 
+			ok: cpt_lang.yes,
+			cancel: cpt_lang.no,
+			classname: "custom-class",
+			reverseButtons: true
+		});
+		}else{
+			promptUpload(file);
+		}
+
+	}
+	function promptUpload(file) {
+		var allActiveThumbs = $('.thumbnail-list li.active');
+		var active_array = [];
+
+
+
+		allActiveThumbs.find('img').eq(0).each(function() {
+			active_array.push("<li>" + $(this).data('values').name + "</li>");
+		});
+		smoke.confirm(cpt_lang.saveAlert.replace(/%list%/, "<ul class='file-list'>" + active_array.join("") + "</ul>"), function(e) {
+			if (e) {
+				afterUploadConfirm(file);
+			} else {
+
+			}
+		}, {
+			ok: cpt_lang.yes,
+			cancel: cpt_lang.no,
+			classname: "custom-class",
+			reverseButtons: true
+		});
+	}
+	function afterUploadConfirm(file) {
 		var allActiveThumbs = $('.thumbnail-list li.active img');
 		var firstActiveThumb = null
 		if (!allActiveThumbs.size()) {
@@ -261,23 +339,31 @@ jQuery(document).ready(function($) {
 
 		console.log("selected an upload on thumb", img_data.width, img_data.height);
 		var formData = new FormData();
-		formData.append("file",this.files[0]);
-		formData.append("width",img_data.width);
-		formData.append("height",img_data.height);
+		formData.append("file", file);
+		formData.append("width", img_data.width);
+		formData.append("height", img_data.height);
 		formData.append("raw_values", JSON.stringify(cropping.img.data('values')));
 		formData.append("action", "cptUploadThumbnail");
 		$.ajax({
 			url: "admin-ajax.php",
 
-			type:"POST",
+			type: "POST",
 			data: formData,
 			processData: false,
-			contentType:false,
-			success:function(){
-				doCacheBreaker(Math.random());
+			contentType: false,
+			success: function(ret) {
+				ret = ret && JSON.parse(ret);
+				if (ret && ret.success)
+					doCacheBreaker(ret.success);
+				else
+					smoke.alert(cpt_lang.uploadProblems);
 			}
 		})
+	}
+	$("#cpt-upload").click(function() {
+		$("#theFile").click();
 	});
+	$("#theFile").change(doUpload);
 });
 
 

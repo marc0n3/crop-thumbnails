@@ -185,6 +185,13 @@ jQuery(document).ready(function($) {
 	cpt_lang['bug'] = "<?php _e('Bug--this should not have occurred.',CROP_THUMBS_LANG);?>";
 	cpt_lang['warningOriginalToSmall'] = "<?php _e('Warning: the original image is too small to be cropped in good quality with this thumbnail size.',CROP_THUMBS_LANG);?>";
 	cpt_lang['selectOne'] = "<?php _e('First, select an image. Then, click once again.',CROP_THUMBS_LANG);?>";
+	cpt_lang['saveAlert'] = "<?php _e('The following images will to be changed: %list% Are you sure?',CROP_THUMBS_LANG);?>";
+	cpt_lang['uploadAlert'] = "<?php _e('The following image will to overwritten: %list% Are you sure?',CROP_THUMBS_LANG);?>";
+	cpt_lang['uploadProblems'] = "<?php _e('Upload refused, chech file size and max upload size.',CROP_THUMBS_LANG);?>";
+	cpt_lang['uploadNoMatch'] = "<?php _e('Your upload image dimensions(%img%) are not compatible with expected(%expected%), do you wanto to continue?',CROP_THUMBS_LANG);?>";
+	cpt_lang['yes'] = "<?php _e('Yes',CROP_THUMBS_LANG);?>";
+	cpt_lang['no'] = "<?php _e('No',CROP_THUMBS_LANG);?>";
+	cpt_lang['selectOne'] = "<?php _e('First, select an image. Then, click once again.',CROP_THUMBS_LANG);?>";
 	cpt_ajax_nonce = "<?php echo wp_create_nonce($cptSettings->getNonceBase()); ?>";
 	cpt_debug_js = <?php echo (!empty($options['debug_js'])) ? 'true;' : 'false;'; ?>
 });
@@ -333,10 +340,12 @@ jQuery(document).ready(function($) {
 		wp_enqueue_script( 'my_jcrop', plugins_url('js/jcrop/js/jquery.Jcrop.min.js',dirname(__FILE__)), array(), CROP_THUMBS_VERSION);
 		wp_enqueue_script( 'json2' );
 		wp_enqueue_script( 'cpt-crop',  plugins_url('js/cpt-crop.js',dirname(__FILE__)), array('jquery','my_jcrop','json2'), CROP_THUMBS_VERSION);
+		wp_enqueue_script( 'smoke.js',  plugins_url('js/smokejs/smoke.min.js',dirname(__FILE__)), array(), CROP_THUMBS_VERSION);
 
 		$windowCssPath = apply_filters('crop_post_thumbnail_window_css', plugins_url('css/cpt-window.css',dirname(__FILE__)));
 		wp_enqueue_style( 'cpt-window',$windowCssPath,array('wp-admin'),CROP_THUMBS_VERSION);
 		wp_enqueue_style( 'my_jcrop', plugins_url('js/jcrop/css/jquery.Jcrop.min.css',dirname(__FILE__)), array(), CROP_THUMBS_VERSION);
+		wp_enqueue_style( 'smoke.js', plugins_url('js/smokejs/smoke.css',dirname(__FILE__)), array(), CROP_THUMBS_VERSION);
 
 		include_once( dirname(__FILE__).'/../html/template.php' );
 
