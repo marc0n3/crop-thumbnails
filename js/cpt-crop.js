@@ -91,6 +91,7 @@ jQuery(document).ready(function($) {
 	function afterProcessingConfirm(active, cropping) {
 		/*console.log('doProcessing');*/
 
+
 		var active_array = [];
 		active.find('img').each(function() {
 			active_array.push($(this).data('values'));
@@ -170,7 +171,7 @@ jQuery(document).ready(function($) {
 			c.api.release();
 			c.api.disable();
 		}
-		$("#cpt-upload").attr("disabled", true);
+		$("#cpt-upload,#cpt-delete").attr("disabled", true);
 	}
 
 	function activateArea(c) {
@@ -181,7 +182,7 @@ jQuery(document).ready(function($) {
 		var ratio = 0;
 		var crop = true;
 
-		$("#cpt-upload").removeAttr("disabled");
+		$("#cpt-upload,#cpt-delete").removeAttr("disabled");
 
 		//get the options
 		allActiveThumbs.each(function() {
@@ -273,7 +274,7 @@ jQuery(document).ready(function($) {
 			var img = new Image;
 
 			img.onload = function() {
-				testUploadExpectedSize(img.width, img.height,file);
+				testUploadExpectedSize(img.width, img.height, file);
 			};
 
 			img.src = fr.result; // is the data URL because called with readAsDataURL
@@ -281,29 +282,28 @@ jQuery(document).ready(function($) {
 
 		fr.readAsDataURL(this.files[0]);
 	}
-	function testUploadExpectedSize(imgW,imgH,file){
+	function testUploadExpectedSize(imgW, imgH, file) {
 		var allActiveThumbs = $('.thumbnail-list li.active');
 		var first = allActiveThumbs.find('img').eq(0);
-		var expectedWidth=first.data("values").width;
-		var expectedHeight=first.data("values").height;
+		var expectedWidth = first.data("values").width;
+		var expectedHeight = first.data("values").height;
 
-		if (expectedWidth!=imgW|| expectedHeight !=imgH ){
-			smoke.confirm(cpt_lang.uploadNoMatch.replace(/%img%/, imgW+"x"+imgH).replace(/%expected%/, expectedWidth+"x"+expectedHeight), function(e) {
-			if (e) {
-				promptUpload(file);
-			} else {
+		if (expectedWidth != imgW || expectedHeight != imgH) {
+			smoke.confirm(cpt_lang.uploadNoMatch.replace(/%img%/, imgW + "x" + imgH).replace(/%expected%/, expectedWidth + "x" + expectedHeight), function(e) {
+				if (e) {
+					promptUpload(file);
+				} else {
 
-			}
-		}, { 
-			ok: cpt_lang.yes,
-			cancel: cpt_lang.no,
-			classname: "custom-class",
-			reverseButtons: true
-		});
-		}else{
+				}
+			}, {
+				ok: cpt_lang.yes,
+				cancel: cpt_lang.no,
+				classname: "custom-class",
+				reverseButtons: true
+			});
+		} else {
 			promptUpload(file);
 		}
-
 	}
 	function promptUpload(file) {
 		var allActiveThumbs = $('.thumbnail-list li.active');
@@ -362,6 +362,68 @@ jQuery(document).ready(function($) {
 	}
 	$("#cpt-upload").click(function() {
 		$("#theFile").click();
+	});
+
+	function promptDelete(file) {
+		var allActiveThumbs = $('.thumbnail-list li.active');
+		var active_array = [];
+
+
+
+		allActiveThumbs.find('img').eq(0).each(function() {
+			active_array.push("<li>" + $(this).data('values').name + "</li>");
+		});
+		smoke.confirm(cpt_lang.deleteAlert.replace(/%list%/, "<ul class='file-list'>" + active_array.join("") + "</ul>"), function(e) {
+			if (e) {
+				afterDeleteConfirm(file);
+			} else {
+
+			}
+		}, {
+			ok: cpt_lang.yes,
+			cancel: cpt_lang.no,
+			classname: "custom-class",
+			reverseButtons: true
+		});
+	}
+	function afterDeleteConfirm(file) {
+		var allActiveThumbs = $('.thumbnail-list li.active img');
+		var firstActiveThumb = null
+		if (!allActiveThumbs.size()) {
+			return;
+		}
+	
+		//get the first
+		firstActiveThumb = allActiveThumbs[0];
+		var img_data = $(firstActiveThumb).data('values');
+
+		console.log("selected an upload on thumb", img_data.width, img_data.height);
+		var formData = new FormData();
+		formData.append("width", img_data.width);
+		formData.append("height", img_data.height);
+		formData.append("raw_values", JSON.stringify(cropping.img.data('values')));
+		formData.append("action", "cptDeleteThumbnail");
+		formData.append("active_values", JSON.stringify([img_data]));
+		$.ajax({
+			url: "admin-ajax.php",
+
+			type: "POST",
+			data: formData,
+			processData: false,
+			contentType: false,
+			success: function(ret) {
+				ret = ret && JSON.parse(ret);
+				if (ret && ret.success){
+					//remove selected
+					$(firstActiveThumb).parent().remove()
+				}
+				else
+					smoke.alert(cpt_lang.deleteProblems);
+			}
+		})
+	}
+	$("#cpt-delete").click(function() {
+		promptDelete();
 	});
 	$("#theFile").change(doUpload);
 });

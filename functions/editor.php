@@ -164,8 +164,8 @@ class CropPostThumbnailsEditor {
 		if(!empty($_REQUEST['posttype']) && post_type_exists($_REQUEST['posttype'])) {
 			$current_parent_post_type = $_REQUEST['posttype'];
 		}
-
-		$all_image_sizes = $cptSettings->getImageSizes();
+		$all_image_sizes = $cptSettings->getImageSizes($image_obj);
+		
 		$this->addDebug('all_image_sizes', print_r($all_image_sizes,true));
 
 		$orig_img = wp_get_attachment_image_src($image_obj->ID, 'full');
@@ -185,8 +185,9 @@ jQuery(document).ready(function($) {
 	cpt_lang['bug'] = "<?php _e('Bug--this should not have occurred.',CROP_THUMBS_LANG);?>";
 	cpt_lang['warningOriginalToSmall'] = "<?php _e('Warning: the original image is too small to be cropped in good quality with this thumbnail size.',CROP_THUMBS_LANG);?>";
 	cpt_lang['selectOne'] = "<?php _e('First, select an image. Then, click once again.',CROP_THUMBS_LANG);?>";
-	cpt_lang['saveAlert'] = "<?php _e('The following images will to be changed: %list% Are you sure?',CROP_THUMBS_LANG);?>";
-	cpt_lang['uploadAlert'] = "<?php _e('The following image will to overwritten: %list% Are you sure?',CROP_THUMBS_LANG);?>";
+	cpt_lang['saveAlert'] = "<?php _e('The following images will be changed: %list% Are you sure?',CROP_THUMBS_LANG);?>";
+	cpt_lang['deleteAlert'] = "<?php _e('The following images will be deleted: %list% Are you sure?',CROP_THUMBS_LANG);?>";
+	cpt_lang['uploadAlert'] = "<?php _e('The following image will be overwritten: %list% Are you sure?',CROP_THUMBS_LANG);?>";
 	cpt_lang['uploadProblems'] = "<?php _e('Upload refused, check file size and max upload size.',CROP_THUMBS_LANG);?>";
 	cpt_lang['uploadNoMatch'] = "<?php _e('Your upload image dimensions(%img%) are not compatible with expected(%expected%), do you wanto to continue?',CROP_THUMBS_LANG);?>";
 	cpt_lang['yes'] = "<?php _e('Yes',CROP_THUMBS_LANG);?>";
@@ -227,6 +228,7 @@ jQuery(document).ready(function($) {
 					<button id="cpt-generate" class="button"><?php _e('Save Crop',CROP_THUMBS_LANG);?></button>
 					<input type="file" id="theFile" />
 					<button id="cpt-upload" class="button" disabled><?php _e('Upload Crop',CROP_THUMBS_LANG);?></button>
+					<button id="cpt-delete" class="button" disabled><?php _e('Delete Crop',CROP_THUMBS_LANG);?></button>
 					<h4><?php _e('Quick Instructions',CROP_THUMBS_LANG);?></h4>
 					<ul class="step-info">
 						<li><?php _e('Step 1: Choose an image from the right.',CROP_THUMBS_LANG); ?></li>
@@ -293,7 +295,7 @@ jQuery(document).ready(function($) {
 
 								$print_dimensions = $value['width'].' '.__('pixel',CROP_THUMBS_LANG).' x '.$value['height'].' '.__('pixel',CROP_THUMBS_LANG).$print_cropped;
 
-								$img_data = wp_get_attachment_image_src($image_obj->ID, $img_size_name);
+								$img_data = $cptSettings->useCustomMeta?array(wp_upload_dir()["url"].DIRECTORY_SEPARATOR. $value["file"]) : wp_get_attachment_image_src($image_obj->ID, $img_size_name);
 
 
 								$_lowResWarning = '';

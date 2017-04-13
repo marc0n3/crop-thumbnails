@@ -2,6 +2,7 @@
 $cptSave = new CptSaveThumbnail();
 add_action('wp_ajax_cptSaveThumbnail', array($cptSave, 'saveThumbnail'));
 add_action('wp_ajax_cptUploadThumbnail', array($cptSave, 'uploadThumbnail'));
+add_action('wp_ajax_cptDeleteThumbnail', array($cptSave, 'deleteThumbnail'));
 
 class CptSaveThumbnail {
 
@@ -29,11 +30,11 @@ class CptSaveThumbnail {
 			$selection     = json_decode(stripcslashes($_REQUEST['selection']));
 			$sourceImgData = json_decode(stripcslashes($_REQUEST['raw_values']));
 			$targetImgData = json_decode(stripcslashes($_REQUEST['active_values']));
+			$obj           = get_post($sourceImgData->id);
 
 			//from DB
-			$dbImageSizes = $cptSettings->getImageSizes();
+			$dbImageSizes = $cptSettings->getImageSizes($obj);
 
-			$obj           = get_post($sourceImgData->id);
 			$sourceImgPath = get_attached_file($obj->ID);
 			$post_metadata = wp_get_attachment_metadata($obj->ID, true); //get the attachement metadata of the post
 
@@ -158,6 +159,108 @@ class CptSaveThumbnail {
 		}
 		die();
 	}
+	public function deleteThumbnail() {
+		if (!is_admin()) return;
+		global $cptSettings;
+		$json_return = array();
+
+		try {
+			/** get data **/
+			$options = $cptSettings->getOptions();
+			//from $_REQUEST
+			$selection     = json_decode(stripcslashes($_REQUEST['selection']));
+			$sourceImgData = json_decode(stripcslashes($_REQUEST['raw_values']));
+			$targetImgData = json_decode(stripcslashes($_REQUEST['active_values']));
+			$obj           = get_post($sourceImgData->id);
+
+			//from DB
+			$dbImageSizes = $cptSettings->getImageSizes($obj);
+
+			$sourceImgPath = get_attached_file($obj->ID);
+			$post_metadata = wp_get_attachment_metadata($obj->ID, true); //get the attachement metadata of the post
+
+			//$this->validation($selection, $obj, $sourceImgPath, $post_metadata);
+
+			#$debug.= "\nselection\n".print_r($selection,true);
+			#$debug.= "\ntargetImgData\n".print_r($sourceImgData,true);
+			#$debug.= "\ntargetImgData\n".print_r($targetImgData,true);
+			#$debug.= "\nimageObject\n".print_r($obj,true);
+			#$debug.= "\nsource:".$sourceImgPath."\n";
+
+			/**
+			 * will be true if the image format isn't in the attachements metadata,
+			 * and Wordpress doesn't know about the image file
+			 */
+			$_changed_image_format = false;
+			$_processing_error     = array();
+			foreach ($targetImgData as $_imageSize) {
+				$this->addDebug('submitted image-data');
+				$this->addDebug(print_r($_imageSize, true));
+				$_delete_old_file = '';
+				if (!$this->isImageSizeValid($_imageSize, $dbImageSizes)) {
+					$this->addDebug("Image size not valid.");
+					continue;
+				}
+				if (empty($post_metadata['sizes'][$_imageSize->name])) {
+					$_changed_image_format = true;
+				} else {
+					//the old size hasent got the right image-size/image-ratio --> delete it or nobody will ever delete it correct
+					
+						$_delete_old_file      = $post_metadata['sizes'][$_imageSize->name]['file'];
+					//	$_changed_image_format = true;
+					
+				}
+
+				$_filepath      = $this->generateFilename($sourceImgPath, $_imageSize->width, $_imageSize->height);
+				$_filepath_info = pathinfo($_filepath);
+
+				$_tmp_filepath = $cptSettings->getUploadDir() . DIRECTORY_SEPARATOR . $_filepath_info['basename'];
+				$this->addDebug("filename:" . $_filepath);
+
+				
+
+				$_error = false;
+	
+				if (!empty($_delete_old_file)) {
+					@unlink($_filepath_info['dirname'] . DIRECTORY_SEPARATOR . $_delete_old_file);
+				}
+		
+				if (!$_error) {
+					//update metadata --> otherwise new sizes will not be updated
+					//remove deleted meta
+					unset( $post_metadata['sizes'][$_imageSize->name]);
+
+					
+				} else {
+					$this->addDebug('error on ' . $_filepath_info['basename']);
+					$this->addDebug(implode(' | ', $_processing_error));
+				}
+			} //END foreach
+
+			//we have to update the posts metadate
+			//otherwise new sizes will not be updated
+			$post_metadata = apply_filters('crop_thumbnails_before_update_metadata', $post_metadata, $obj->ID);
+			wp_update_attachment_metadata($obj->ID, $post_metadata);
+
+			//generate result;
+			$json_return['debug'] = $this->getDebugOutput($options);
+			if (!empty($_processing_error)) {
+				//one or more errors happend when generating thumbnails
+				$json_return['processingErrors'] = implode("\n", $_processing_error);
+			}
+			if ($_changed_image_format) {
+				//there was a change in the image-formats
+				$json_return['changed_image_format'] = true;
+			}
+			$json_return['success'] = time(); //time for cache-breaker
+			echo json_encode($json_return);
+		} catch (Exception $e) {
+			$json_return['debug'] = $this->getDebugOutput($options);
+			$json_return['error'] = $e->getMessage();
+			echo json_encode($json_return);
+		}
+		die();
+	}
 
 	public function uploadThumbnail() {
 		if (!is_admin()) {
@@ -179,10 +282,10 @@ class CptSaveThumbnail {
 			$sourceImgData = json_decode(stripcslashes($_REQUEST['raw_values']));
 			$targetImgData = json_decode(stripcslashes($_REQUEST['active_values']));
 
-			//from DB
-			$dbImageSizes = $cptSettings->getImageSizes();
-
 			$obj           = get_post($sourceImgData->id);
+			//from DB
+			$dbImageSizes = $cptSettings->getImageSizes($obj);
+
 			$sourceImgPath = get_attached_file($obj->ID);
 			$post_metadata = wp_get_attachment_metadata($obj->ID, true); //get the attachement metadata of the post
 

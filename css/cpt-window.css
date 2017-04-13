@@ -30,6 +30,7 @@
 .selectionArea h3{margin:0}
 #cpt-generate,
 #cpt-upload{width:300px;height:2em;padding:0.5em 0;display:block;line-height:0;margin-bottom:1.33em}
+#cpt-delete{width:300px;height:2em;padding:0.5em 0;display:block;line-height:0;margin-bottom:1.33em}
 #theFile{display:none;height:0;padding:0;margin:0}
 h4{margin-bottom:0em}
 .step-info{font-size:0.9em}

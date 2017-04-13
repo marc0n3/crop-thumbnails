@@ -4,6 +4,8 @@ class CropThumbnailsSettings {
 	private $optionsKey = 'crop-post-thumbs';
 	private $cssPrefix = 'cpt_settings_';
 	private $defaultSizes = array('thumbnail','medium','medium_large','large');
+	//CONFIGURE THIS IN YOUR THEME IF YOU WANT TO ADD A CUSTOM META
+	public $useCustomMeta=false;
 
 	function __construct() {
 		add_action('admin_menu', array($this,'addOptionsPage'));
@@ -389,34 +391,41 @@ class CropThumbnailsSettings {
 	 *                       array[<sizename>]['name'] = string --> readable name if provided in "image_size_names_choose", else sizename
 	 * </pre>
 	 */
-	function getImageSizes() {
-		global $_wp_additional_image_sizes;//array with the available image sizes
-		$image_size_names = array_flip(get_intermediate_image_sizes());
-		foreach($image_size_names as $key=>$value) {
-			$image_size_names[$key] = $key;
+	function getImageSizes($image_obj) {
+		$all_image_sizes =$this->useCustomMeta?get_post_meta($image_obj->ID, "scaledImg",true)["sizes"]:wp_get_attachment_metadata($image_obj->ID)["sizes"];// $cptSettings->getImageSizes();
+	
+		foreach ($all_image_sizes as $key => &$value) {
+			$value["crop"] = true;
 		}
-		
-		$tmp_sizes = apply_filters( 'image_size_names_choose', $image_size_names );
-		$image_size_names = array_merge($image_size_names,$tmp_sizes);
-		
-		$sizes = array();
-		foreach( $image_size_names as $_size=>$theName ) {
 
-			if ( in_array( $_size, $this->defaultSizes ) ) {
-				$sizes[ $_size ]['width']  = intval(get_option( $_size . '_size_w' ));
-				$sizes[ $_size ]['height'] = intval(get_option( $_size . '_size_h' ));
-				$sizes[ $_size ]['crop']   = (bool) get_option( $_size . '_crop' );
-			} else {
-				$sizes[ $_size ] = array(
-					'width'  => intval($_wp_additional_image_sizes[ $_size ]['width']),
-					'height' => intval($_wp_additional_image_sizes[ $_size ]['height']),
-					'crop'   => (bool) $_wp_additional_image_sizes[ $_size ]['crop']
-				);
-			}
-			$sizes[ $_size ]['name'] = $theName;
-		}
-		$sizes = apply_filters('crop_thumbnails_image_sizes',$sizes);
-		return $sizes;
+		return $all_image_sizes;
+		// global $_wp_additional_image_sizes;//array with the available image sizes
+		// $image_size_names = array_flip(get_intermediate_image_sizes());
+		// foreach($image_size_names as $key=>$value) {
+		// 	$image_size_names[$key] = $key;
+		// }
+		
+		// $tmp_sizes = apply_filters( 'image_size_names_choose', $image_size_names );
+		// $image_size_names = array_merge($image_size_names,$tmp_sizes);
+		
+		// $sizes = array();
+		// foreach( $image_size_names as $_size=>$theName ) {
+
+		// 	if ( in_array( $_size, $this->defaultSizes ) ) {
+		// 		$sizes[ $_size ]['width']  = intval(get_option( $_size . '_size_w' ));
+		// 		$sizes[ $_size ]['height'] = intval(get_option( $_size . '_size_h' ));
+		// 		$sizes[ $_size ]['crop']   = (bool) get_option( $_size . '_crop' );
+		// 	} else {
+		// 		$sizes[ $_size ] = array(
+		// 			'width'  => intval($_wp_additional_image_sizes[ $_size ]['width']),
+		// 			'height' => intval($_wp_additional_image_sizes[ $_size ]['height']),
+		// 			'crop'   => (bool) $_wp_additional_image_sizes[ $_size ]['crop']
+		// 		);
+		// 	}
+		// 	$sizes[ $_size ]['name'] = $theName;
+		// }
+		// $sizes = apply_filters('crop_thumbnails_image_sizes',$sizes);
+		// return $sizes;
 	}
 
 	function getOptions() {
