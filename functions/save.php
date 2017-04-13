@@ -36,7 +36,7 @@ class CptSaveThumbnail {
 			$dbImageSizes = $cptSettings->getImageSizes($obj);
 
 			$sourceImgPath = get_attached_file($obj->ID);
-			$post_metadata = wp_get_attachment_metadata($obj->ID, true); //get the attachement metadata of the post
+			$post_metadata = $cptSettings->useCustomMeta?get_post_meta($obj->ID, "scaledImg",true):wp_get_attachment_metadata($obj->ID, true); //get the attachement metadata of the post
 
 			$this->validation($selection, $obj, $sourceImgPath, $post_metadata);
 
@@ -138,7 +138,7 @@ class CptSaveThumbnail {
 			//we have to update the posts metadate
 			//otherwise new sizes will not be updated
 			$post_metadata = apply_filters('crop_thumbnails_before_update_metadata', $post_metadata, $obj->ID);
-			wp_update_attachment_metadata($obj->ID, $post_metadata);
+			$cptSettings->useCustomMeta?update_post_meta($obj->ID, "scaledImg",$post_metadata):wp_update_attachment_metadata($obj->ID, $post_metadata);
 
 			//generate result;
 			$json_return['debug'] = $this->getDebugOutput($options);
@@ -177,7 +177,7 @@ class CptSaveThumbnail {
 			$dbImageSizes = $cptSettings->getImageSizes($obj);
 
 			$sourceImgPath = get_attached_file($obj->ID);
-			$post_metadata = wp_get_attachment_metadata($obj->ID, true); //get the attachement metadata of the post
+			$post_metadata = $cptSettings->useCustomMeta?get_post_meta($obj->ID, "scaledImg",true):wp_get_attachment_metadata($obj->ID, true); //get the attachement metadata of the post
 
 			//$this->validation($selection, $obj, $sourceImgPath, $post_metadata);
 
@@ -240,7 +240,7 @@ class CptSaveThumbnail {
 			//we have to update the posts metadate
 			//otherwise new sizes will not be updated
 			$post_metadata = apply_filters('crop_thumbnails_before_update_metadata', $post_metadata, $obj->ID);
-			wp_update_attachment_metadata($obj->ID, $post_metadata);
+			$cptSettings->useCustomMeta?update_post_meta($obj->ID, "scaledImg",$post_metadata):wp_update_attachment_metadata($obj->ID, $post_metadata);
 
 			//generate result;
 			$json_return['debug'] = $this->getDebugOutput($options);
@@ -287,7 +287,7 @@ class CptSaveThumbnail {
 			$dbImageSizes = $cptSettings->getImageSizes($obj);
 
 			$sourceImgPath = get_attached_file($obj->ID);
-			$post_metadata = wp_get_attachment_metadata($obj->ID, true); //get the attachement metadata of the post
+			$post_metadata = $cptSettings->useCustomMeta?get_post_meta($obj->ID, "scaledImg",true):wp_get_attachment_metadata($obj->ID, true); //get the attachement metadata of the post
 
 			$_filepath = $this->generateFilename($sourceImgPath, $w, $h);
 			$tmp_name  = $_FILES["file"]["tmp_name"];
